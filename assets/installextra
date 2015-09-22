@@ -38,8 +38,6 @@ apt-get install curl -y
 # Install 
 apt-get install sendmail -y
 
-# Change directory to /etc 
-cd ~/etc/
 
 echo
 echo "----------------------------------------------------------------------------------------------------"
@@ -55,17 +53,16 @@ echo
 pause "Press [Enter] key to start configuration..."|pv -qL 20
 
 # Changes outgoing mail format
-sed -i "s/127.0.0.1 localhost/127.0.0.1 localhost.locatdomain $HOSTNAME/g" hosts
+sed -i "s/127.0.0.1 localhost/127.0.0.1 localhost.locatdomain $HOSTNAME/g" /etc/hosts
 
 # Starts the send mail CONFIG
 sendmailconfig -y
 
 # these 4 commands change the php.ini files for 
-sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/cli/php.ini
-sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/cli/php.ini
-sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/apache2/php.ini
-sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/apache2/php.ini
-
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" /etc/php5/cli/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" /etc/php5/cli/php.ini
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" /etc/php5/apache2/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" /etc/php5/apache2/php.ini
 
 echo
 echo "----------------------------------------------------------------------------------------------------"
