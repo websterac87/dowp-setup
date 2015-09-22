@@ -26,10 +26,132 @@ echo -e "complete the next steps needed on initial install\ninstall required pro
 
 pause "Press [Enter] key to start the process..."|pv -qL 20
 
-bash installextra
+#---------------------- INSTALL -------------------
+echo 
+echo 
+echo "================================================================================================"
+figlet WP Extra Steps
+echo "================================================================================================"
+echo 
+echo 
+echo 
+echo -n "This script will now run an update on the server then install the following programs:"|pv -qL 30
+echo 
+echo 
+echo -e "php5\nphp5-curl\ncurl\nsendmail\n"|pv -qL 20
 
-bash createswap
+pause "Press [Enter] key to start the process..."|pv -qL 20
 
+# Grab the Update
+apt-get update -y
+
+# run the update/upgrade
+apt-get dist-upgrade -y
+
+# Install 
+apt-get install php5 -y
+
+# Install 
+apt-get install php5-curl -y
+
+# Install 
+apt-get install curl -y
+
+# Install 
+apt-get install sendmail -y
+
+# Change directory to /etc 
+cd ~/etc/
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "Install finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo 
+echo -n "Now we need to configure the sendmail installation and change php.ini to allow larger uploads to WordPress:"|pv -qL 30
+echo 
+echo 
+pause "Press [Enter] key to start configuration..."|pv -qL 20
+
+# Changes outgoing mail format
+sed -i "s/127.0.0.1 localhost/127.0.0.1 localhost.locatdomain $HOSTNAME/g" hosts
+
+# Starts the send mail CONFIG
+sendmailconfig -y
+
+# these 4 commands change the php.ini files for 
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/cli/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/cli/php.ini
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/apache2/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/apache2/php.ini
+
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "Configuration finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+
+#---------------------- SWAP -------------------
+echo 
+echo 
+echo "================================================================================================"
+figlet Add SWAP space
+echo "================================================================================================"
+echo 
+echo 
+echo 
+echo -n "This script will now create and configure SWAP space on this server"|pv -qL 30
+echo 
+echo 
+
+pause "Press [Enter] key to start the process..."|pv -qL 20
+
+# create a 2G swapfile
+sudo fallocate -l 2G /swapfile
+
+# change the permissions to root only
+sudo chmod 600 /swapfile
+
+# classify as SWAP FILE
+sudo mkswap /swapfile
+
+# turn SWAP on
+sudo swapon /swapfile
+
+# write to /etc/fstab to make SWAP permananet
+echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+
+# set how often to use swap
+sudo sysctl vm.swappiness=10
+
+# Make Swappiness permanant by writing to file
+echo "vm.swappiness=10" >> /etc/sysctl.conf
+
+# set how much to cache
+sudo sysctl vm.vfs_cache_pressure=50
+
+# Make Cache permanant by writing to file
+echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "SWAP setup finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "check below to see if 2G SWAP has been added."|pv -qL 20
+echo
+
+# show ram and SWAP
+free -m
+pause "Process finished. Press [Enter] key to exit..."|pv -qL 20
 echo
 echo "----------------------------------------------------------------------------------------------------"
 echo
