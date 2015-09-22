@@ -4,9 +4,11 @@ function pause(){
    read -p "$*"
 }
 
-#apt-get install figlet -y
+# Install Figlet app (BOLD WRITING)
+apt-get install figlet -y
 
-#apt-get install pv -y
+# Install PV (TYPING EFFECT)
+apt-get install pv -y
 
 #---------------------- START BELOW -------------------
 echo 
@@ -24,21 +26,27 @@ echo -e "php5\nphp5-curl\ncurl\nsendmail\n"|pv -qL 20
 
 pause "Press [Enter] key to start the process..."|pv -qL 20
 
+# Grab the Update
+apt-get update -y
 
+# run the update/upgrade
+apt-get dist-upgrade -y
 
-#apt-get update -y
+# Install 
+apt-get install php5 -y
 
-#apt-get dist-upgrade -y
+# Install 
+apt-get install php5-curl -y
 
-#apt-get install php5 -y
+# Install 
+apt-get install curl -y
 
-#apt-get install php5-curl -y
+# Install 
+apt-get install sendmail -y
 
-#apt-get install curl -y
+# Change directory to /etc 
+cd ~/etc/
 
-#apt-get install sendmail -y
-
-#cd ~/etc/
 echo
 echo "----------------------------------------------------------------------------------------------------"
 echo

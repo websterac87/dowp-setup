@@ -18,23 +18,32 @@ echo
 echo 
 pause "Press [Enter] key to start the process..."|pv -qL 20
 
-#sudo fallocate -l 2G /swapfile
+# create a 2G swapfile
+sudo fallocate -l 2G /swapfile
 
-#sudo chmod 600 /swapfile
+# change the permissions to root only
+sudo chmod 600 /swapfile
 
-#sudo mkswap /swapfile
+# classify as SWAP FILE
+sudo mkswap /swapfile
 
-#sudo swapon /swapfile
+# turn SWAP on
+sudo swapon /swapfile
 
-#echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+# write to /etc/fstab to make SWAP permananet
+echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
 
-#sudo sysctl vm.swappiness=10
+# set how often to use swap
+sudo sysctl vm.swappiness=10
 
-#echo "vm.swappiness=10" >> /etc/sysctl.conf
+# Make Swappiness permanant by writing to file
+echo "vm.swappiness=10" >> /etc/sysctl.conf
 
-#sudo sysctl vm.vfs_cache_pressure=50
+# set how much to cache
+sudo sysctl vm.vfs_cache_pressure=50
 
-#echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+# Make Cache permanant by writing to file
+echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
 echo
 echo "----------------------------------------------------------------------------------------------------"
@@ -46,6 +55,7 @@ echo
 echo "check below to see if 2G SWAP has been added."|pv -qL 20
 echo
 
+# show ram and SWAP
 free -m
 
 
