@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function pause(){
+   read -p "$*"
+}
+
+#---------------------- START BELOW -------------------
+echo 
+echo 
+echo "================================================================================================"
+figlet Add SWAP space
+echo "================================================================================================"
+echo 
+echo 
+echo 
+echo -n "This script will now create and configure SWAP space on this server"|pv -qL 30
+echo 
+echo 
+pause "Press [Enter] key to start the process..."|pv -qL 20
+
+#sudo fallocate -l 2G /swapfile
+
+#sudo chmod 600 /swapfile
+
+#sudo mkswap /swapfile
+
+#sudo swapon /swapfile
+
+#echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+
+#sudo sysctl vm.swappiness=10
+
+#echo "vm.swappiness=10" >> /etc/sysctl.conf
+
+#sudo sysctl vm.vfs_cache_pressure=50
+
+#echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "Program finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "check below to see if 2G SWAP has been added."|pv -qL 20
+echo
+
+free -m
+
+
+
