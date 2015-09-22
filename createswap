@@ -16,6 +16,7 @@ echo
 echo -n "This script will now create and configure SWAP space on this server"|pv -qL 30
 echo 
 echo 
+
 pause "Press [Enter] key to start the process..."|pv -qL 20
 
 # create a 2G swapfile
@@ -48,7 +49,7 @@ echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 echo
 echo "----------------------------------------------------------------------------------------------------"
 echo
-echo "Program finished"|pv -qL 20
+echo "SWAP setup finished"|pv -qL 20
 echo
 echo "----------------------------------------------------------------------------------------------------"
 echo
