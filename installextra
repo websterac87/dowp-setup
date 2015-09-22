@@ -1,0 +1,76 @@
+#!/bin/bash
+
+function pause(){
+   read -p "$*"
+}
+
+#---------------------- START BELOW -------------------
+echo 
+echo 
+echo "================================================================================================"
+figlet WP Extra Steps
+echo "================================================================================================"
+echo 
+echo 
+echo 
+echo -n "This script will now run an update on the server then install the following programs:"|pv -qL 30
+echo 
+echo 
+echo -e "php5\nphp5-curl\ncurl\nsendmail\n"|pv -qL 20
+
+pause "Press [Enter] key to start the process..."|pv -qL 20
+
+# Grab the Update
+apt-get update -y
+
+# run the update/upgrade
+apt-get dist-upgrade -y
+
+# Install 
+apt-get install php5 -y
+
+# Install 
+apt-get install php5-curl -y
+
+# Install 
+apt-get install curl -y
+
+# Install 
+apt-get install sendmail -y
+
+# Change directory to /etc 
+cd ~/etc/
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "Install finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo 
+echo -n "Now we need to configure the sendmail installation and change php.ini to allow larger uploads to WordPress:"|pv -qL 30
+echo 
+echo 
+pause "Press [Enter] key to start configuration..."|pv -qL 20
+
+# Changes outgoing mail format
+sed -i "s/127.0.0.1 localhost/127.0.0.1 localhost.locatdomain $HOSTNAME/g" hosts
+
+# Starts the send mail CONFIG
+sendmailconfig -y
+
+# these 4 commands change the php.ini files for 
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/cli/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/cli/php.ini
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" ~/etc/php5/apache2/php.ini
+sed -i "s/post_max_size = 8M/post_max_size = 200M/g" ~/etc/php5/apache2/php.ini
+
+
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
+echo "Configuration finished"|pv -qL 20
+echo
+echo "----------------------------------------------------------------------------------------------------"
+echo
