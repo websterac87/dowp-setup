@@ -26,9 +26,9 @@ echo -e "complete the next steps needed on initial install\ninstall required pro
 
 pause "Press [Enter] key to start the process..."|pv -qL 20
 
-bash /assets/installextra
+bash installextra
 
-bash /assets/createswap
+bash createswap
 
 echo
 echo "----------------------------------------------------------------------------------------------------"
